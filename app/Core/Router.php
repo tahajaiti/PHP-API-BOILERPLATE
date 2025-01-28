@@ -1,6 +1,7 @@
 <?php
 
 namespace app\Core;
+use app\Core\Request;
 
 use Exception;
 
@@ -8,6 +9,11 @@ class Router
 {
     private array $routes = [];
     private string $controllerNamespace = 'app\\Controller\\';
+    private Request $request;
+
+    public function __construct(){
+        $this->request = new Request();
+    }
 
     public function add($method, $path, $handler): void
     {
@@ -44,8 +50,7 @@ class Router
                 $methodName = $handlerName[1];
                 
                 if (class_exists($className) && method_exists($className, $methodName)) {
-                    $controller = new $className();
-                    return call_user_func_array([$controller, $methodName], $args);
+                    return (new $className())->$methodName($this->request, $args);
                 }
 
                 throw new \RuntimeException("Controller or method not found: $className@$methodName");
