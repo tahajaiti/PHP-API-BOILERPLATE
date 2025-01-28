@@ -1,10 +1,13 @@
 <?php
 
 use app\Core\Router;
+use app\Middleware\AuthMiddleware;
 
 $router = new Router();
 
-$router->add('GET', '/api/test', 'TestController@test');
+$router->add('GET', '/api/test', 'TestController@test', [
+    AuthMiddleware::class
+]);
 
 try {
     $router->dispatch();

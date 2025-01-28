@@ -1,26 +1,29 @@
 <?php
-
 namespace app\Core;
-use app\Core\Request;
 
+use app\Core\Request;
+use app\Core\Response;
+use app\Helpers\Helper;
 use Exception;
 
 class Router
 {
     private array $routes = [];
     private string $controllerNamespace = 'app\\Controller\\';
+    private string $middlewareNamespace = 'app\\Middleware\\';
     private Request $request;
 
     public function __construct(){
         $this->request = new Request();
     }
 
-    public function add($method, $path, $handler): void
+    public function add(string $method, string $path, string $handler, array $middleware = []): void
     {
         $this->routes[] = [
             'method' => strtoupper($method),
             'path' => $path,
-            'handler' => $handler
+            'handler' => $handler,
+            'middleware' => $middleware
         ];
     }
 
@@ -37,8 +40,19 @@ class Router
 
             if ($route['method'] === $requestMethod && preg_match($pattern, $requestUri, $matches)) {
                 array_shift($matches);
-
                 $args = array_values($matches);
+
+                foreach ($route['middleware'] as $middleware) {
+                    if (class_exists($middleware) && method_exists($middleware, 'handle')) {
+                        $middlewareInstance = new $middleware();
+                        $response = $middlewareInstance->handle($this->request);
+                        if ($response instanceof Response) {
+                            $response->send();
+                        }
+                    } else {
+                        throw new \RuntimeException("Middleware is not found or invalid: $middleware");
+                    }
+                }
 
                 $handlerName = explode('@', $route['handler']);
                 if (count($handlerName) !== 2) {
