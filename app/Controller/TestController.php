@@ -2,12 +2,15 @@
 
 namespace app\Controller;
 use App\Core\Request;
+use app\Core\Response;
+use app\Helpers\Helper;
+
 class TestController
 {
-    public function test(Request $request): void
+    public function test(Request $request): Response
     {
-        echo "Test!";
-        $test = $request->get('id');
-        echo $test;
+        $test = $request->all();
+
+        return Response::error();
     }
 }
