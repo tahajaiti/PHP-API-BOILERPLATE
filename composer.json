@@ -1,0 +1,16 @@
+{
+    "name": "tahajaiti/api_boilerplate",
+    "description": "A simple api boilerplate code for me to use in my projects",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "tahajaiti",
+            "email": "kyojin.rar@gmail.com"
+        }
+    ],
+    "require": {}
+}
