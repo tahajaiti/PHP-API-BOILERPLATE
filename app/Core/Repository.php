@@ -2,25 +2,23 @@
 
 namespace app\Core;
 use app\Core\Database;
+use app\Helpers\Helper;
 use Exception;
 
 class Repository
 {
     protected Database $db;
     protected string $table;
+    protected object $model;
 
-    public function __construct()
-    {
-        $this->db = Database::getInstance();
-    }
 
     /**
      * @throws Exception
      */
-    public function find(int $Id): array{
+    public function find(): array{
         $sql = "SELECT * FROM {$this->table} WHERE id = :id";
 
-        return $this->db->fetch($sql, ['id' => $Id]) ?? [];
+        return $this->db->fetch($sql, ['id' => $this->model->getId()]) ?? [];
     }
 
     /**
@@ -36,8 +34,9 @@ class Repository
     /**
      * @throws Exception
      */
-    public function create(array $data): bool
+    public function create(): bool
     {
+        $data = $this->extractData($this->model);
         $cols = implode(', ', array_keys($data));
         $values = ":" . implode(", :", array_keys($data));
 
@@ -48,21 +47,40 @@ class Repository
     /**
      * @throws Exception
      */
-    public function update(array $data, int $id): bool
+    public function update(): bool
     {
-        $set = implode(', ', array_map(fn($key) => "{$key} = :{$key}", array_keys($data)));
+        $data = $this->extractData($this->model);
+        $set = implode(', ', array_map(static fn($key) => "{$key} = :{$key}", array_keys($data)));
         $sql = "UPDATE {$this->table} SET {$set} WHERE id = :id";
-        $data['id'] = $id;
         return (bool) $this->db->execute($sql, $data);
     }
 
     /**
      * @throws Exception
      */
-    public function delete(int $id): bool
+    public function delete(): bool
     {
+        $data = $this->extractData($this->model);
+
         $sql = "DELETE FROM {$this->table} WHERE id = :id";
 
-        return (bool) $this->db->execute($sql,['id' => $id]);
+        return (bool) $this->db->execute($sql,$data);
     }
+
+    public function extractData(object $model): array
+    {
+        $data = [];
+        $reflection = new \ReflectionClass($model);
+        $properties = $reflection->getProperties();
+
+        foreach ($properties as $property) {
+            $getter = 'get' . $property->getName();
+            if (method_exists($model, $getter)) {
+                $data[$property->getName()] = $model->$getter();
+            }
+        }
+
+        return $data;
+    }
+
 }

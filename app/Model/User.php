@@ -14,13 +14,14 @@ class User
     private string $password;
 
     /**
+     * @param  int $id
      * @param string $name
      * @param string $email
      * @param string $password
      */
-    public function __construct(string $name, string $email, string $password)
+    public function __construct(string $name, string $email, string $password,int $id = 0)
     {
-        $this->pdo = Database::getInstance();
+        $this->setId($id);
         $this->setName($name);
         $this->setEmail($email);
         $this->setPassword($password);
@@ -101,22 +102,4 @@ class User
     /**
      * @throws Exception
      */
-    public static function create(array $data): bool
-    {
-        $user = new static($data['name'], $data['email'], $data['password']);
-
-        $sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
-        $result = $user->pdo->execute($sql, [
-            ':name' => $user->getName(),
-            ':email' => $user->getEmail(),
-            ':password' => $user->getPassword()
-        ]);
-
-        if (!$result) {
-            return false;
-        }
-
-        return true;
-    }
-
 }

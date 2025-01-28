@@ -29,12 +29,10 @@ class AuthController
             return Response::error($errors[0]);
         }
 
-        $user = new UserRepository();
-        $result = $user->create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => $request->get('password'),
-        ]);
+        $user = new User($request->get('name'), $request->get('email'), $request->get('password'));
+        $repo = new UserRepository($user);
+
+        $result = $repo->create();
 
         if (!$result){
             return Response::error('Error creating user');
