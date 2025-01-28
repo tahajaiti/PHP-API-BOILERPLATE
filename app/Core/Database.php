@@ -1,10 +1,10 @@
 <?php
-namespace app\core;
+namespace app\Core;
 
 use PDO;
+use Exception;
 use PDOException;
 use PDOStatement;
-use Exception;
 
 /**
  * Class Database

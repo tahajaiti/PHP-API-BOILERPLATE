@@ -65,7 +65,7 @@ class Validator
             $message = str_replace(':param', $parameters[0], $message);
         }
 
-        self::$errors[$field][] = $message;
+        self::$errors[] = $message;
     }
 
     private static function validateRequired(string $field, $value, array $parameters): bool
