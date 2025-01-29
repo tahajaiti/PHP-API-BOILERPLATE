@@ -25,7 +25,7 @@ class AuthController
         if ($this->service->create($request)){
             return Response::success(null,'Registration successful');
         }
-        return Response::error(Validator::errors()[0] ?? 'Registration failed');
+        return Response::error( 'Registration failed', 200, Validator::errors());
     }
 
 }

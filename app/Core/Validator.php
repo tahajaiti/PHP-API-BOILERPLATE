@@ -13,7 +13,7 @@ class Validator
         'min' => 'The :field must be at least :param characters.',
         'max' => 'The :field must not exceed :param characters.',
         'numeric' => 'The :field must be a number.',
-        'alpha' => 'The :field must contain only letters.',
+        'string' => 'The :field must contain only letters.',
         'alphanumeric' => 'The :field must contain only letters and numbers.',
         'url' => 'The :field must be a valid URL.',
         'date' => 'The :field must be a valid date.',
@@ -93,7 +93,7 @@ class Validator
         return is_numeric($value);
     }
 
-    private static function validateAlpha(string $field, $value, array $parameters): bool
+        private static function validateString(string $field, $value, array $parameters): bool
     {
         return ctype_alpha($value);
     }

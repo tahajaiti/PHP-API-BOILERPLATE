@@ -5,6 +5,7 @@ use PDO;
 use Exception;
 use PDOException;
 use PDOStatement;
+use RuntimeException;
 
 /**
  * Class Database
@@ -77,7 +78,7 @@ class Database
 
             $this->connect();
         } catch (PDOException $e) {
-            throw new \RuntimeException("Database initialization failed: " . $e->getMessage());
+            throw new RuntimeException("Database initialization failed: " . $e->getMessage());
         }
     }
 
@@ -92,9 +93,8 @@ class Database
         try {
             $this->pdo = new PDO($dsn, $this->user, $this->password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo 'connected';
         } catch (PDOException $e) {
-            throw new \RuntimeException("Database connection failed: " . $e->getMessage());
+            throw new RuntimeException("Database connection failed: " . $e->getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ class Database
             $stmt->execute($params);
             return $stmt;
         } catch (PDOException $e) {
-            throw new \RuntimeException("Query execution failed: " . $e->getMessage());
+            throw new RuntimeException("Query execution failed: " . $e->getMessage());
         }
     }
 
