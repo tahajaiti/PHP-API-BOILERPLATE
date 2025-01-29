@@ -11,6 +11,15 @@ class Repository
     protected string $table;
     protected object $model;
 
+    public function __construct(string $table){
+        $this->db = Database::getInstance();
+        $this->table = $table;
+    }
+
+    public function setModel(object $model): void
+    {
+        $this->model = $model;
+    }
 
     /**
      * @throws Exception

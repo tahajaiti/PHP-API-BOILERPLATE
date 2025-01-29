@@ -1,6 +1,6 @@
 <?php
 
-namespace app\repository;
+namespace app\Repository;
 
 use app\Core\Database;
 use app\Core\Repository;
@@ -9,12 +9,6 @@ use Exception;
 
 class UserRepository extends Repository
 {
-
-    public function __construct(User $user) {
-        $this->table = 'users';
-        $this->db = Database::getInstance();
-        $this->model = $user;
-    }
 
     /**
      * @throws Exception
