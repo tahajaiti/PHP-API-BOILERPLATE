@@ -5,11 +5,10 @@ use app\Middleware\AuthMiddleware;
 
 $router = new Router();
 
-$router->add('GET', '/test', 'TestController@test', ['AuthMiddleware']);
+$router->add('GET', '/test', 'TestController@test', ['TokenMiddleware']);
 
-$router->add('POST', '/register', 'AuthController@register');
-$router->add('GET', '/users', 'AuthController@all');
-$router->add('GET', '/users/{id}', 'AuthController@get');
+$router->add('POST', '/register', 'AuthController@register', ['AuthMiddleware']);
+$router->add('POST', '/login', 'AuthController@login');
 
 try {
     $router->dispatch();

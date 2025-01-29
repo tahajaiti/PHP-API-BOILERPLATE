@@ -3,7 +3,7 @@
         'name' => 'tahajaiti/api_boilerplate',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '4c93554301fc9904e04344f763856a0cb8641e8a',
+        'reference' => '4a0c5a76a86a55525b617ee08f33fe6c83322953',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'tahajaiti/api_boilerplate' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4c93554301fc9904e04344f763856a0cb8641e8a',
+            'reference' => '4a0c5a76a86a55525b617ee08f33fe6c83322953',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

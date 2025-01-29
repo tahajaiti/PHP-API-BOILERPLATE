@@ -3,11 +3,25 @@ namespace app\Middleware;
 
 use app\Core\Request;
 use app\Core\Response;
+use app\Helpers\Helper;
+use app\Model\User;
+use app\Repository\UserRepository;
+use Exception;
 
 class AuthMiddleware
 {
-    public function handle(Request $request): Response
+    /**
+     * @throws Exception
+     */
+    public function handle(Request $request): ?Response
     {
-        return Response::error('mok');
+        $model = new User($request->all());
+        $repo = new UserRepository('users');
+        $repo->setModel($model);
+
+        if ($repo->findByEmail()){
+            return Response::error('Email already exists');
+        }
+        return null;
     }
 }

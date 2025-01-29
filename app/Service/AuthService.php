@@ -2,6 +2,7 @@
 
 namespace app\Service;
 
+use app\Core\JWToken;
 use app\Core\Request;
 use app\Core\Response;
 use app\Core\Service;
@@ -10,6 +11,30 @@ use app\Model\User;
 
 class AuthService extends Service
 {
+
+    public function login(Request $request): array|false
+    {
+        if (!$this->validate($request, false)) {
+            return false;
+        }
+
+        $model = new User();
+        $model->setEmail($request->get('email'));
+        $model->setPassword($request->get('password'));
+
+        if (!$this->verifyPassword($request->get('password'), $model->getPassword())) {
+            return false;
+        }
+
+        return [
+            'token' => JWToken::generate(),
+        ];
+    }
+
+    private function verifyPassword($password, $hash): bool
+    {
+        return password_verify($password, $hash);
+    }
 
     protected function validate(Request $data, bool $isCreate): bool
     {

@@ -29,30 +29,13 @@ class AuthController
         return Response::error( 'Registration failed', 200, Validator::errors());
     }
 
-    /**
-     * @throws Exception
-     */
-    public function all(): Response
-    {
-        $data = $this->service->getAll();
-        if ($data){
-            return Response::success($data,'All successful');
-        }
-        return Response::error('No data found');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function get(Request $request): Response
-    {
-        Helper::dd($request);
-        $data = $this->service->getById($request->get('id'));
-        if ($data){
-            return Response::success($data,'Successful');
+    public function login(Request $request): Response {
+        $result = $this->service->login($request);
+        if ($result){
+            return Response::success($result,'Login successful');
         }
 
-        return Response::error('No data found');
+        return Response::error( 'Login failed', 200, Validator::errors());
     }
 
 }

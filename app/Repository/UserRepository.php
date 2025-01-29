@@ -16,9 +16,8 @@ class UserRepository extends Repository
      */
     public function findByEmail() : ?Model
     {
-        $data = $this->model->toArray();
         $sql = "SELECT * FROM {$this->table} WHERE email = :email";
-        $user = $this->db->fetch($sql, $data);
+        $user = $this->db->fetch($sql, [':email' => $this->model->getEmail()]);
 
         return $user ? new ($this->getModelClass())($user) : null;
     }

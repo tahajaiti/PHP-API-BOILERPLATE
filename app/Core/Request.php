@@ -67,6 +67,33 @@ class Request {
         return $this->uri;
     }
 
+    public function getAllHeaders(): array {
+        if (function_exists('getallheaders')) {
+            return getallheaders();
+        }
+
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (str_starts_with($key, 'HTTP_')) {
+                $headerName = str_replace('_', '-', strtolower(substr($key, 5)));
+                $headers[$headerName] = $value;
+            }
+        }
+        return $headers;
+    }
+
+    public function getHeader(string $name) {
+        $headers = $this->getAllHeaders();
+        $name = strtolower($name);
+
+        foreach ($headers as $headerName => $headerValue) {
+            if (strtolower($headerName) === $name) {
+                return $headerValue;
+            }
+        }
+        return null;
+    }
+
     private function isJson(): bool {
         return isset($_SERVER['CONTENT_TYPE']) &&
             str_contains($_SERVER['CONTENT_TYPE'], 'application/json');

@@ -4,7 +4,7 @@ namespace app\Core;
 
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
-use FIreBase\JWT\Key;
+use Firebase\JWT\Key;
 
 class JWToken
 {
@@ -19,12 +19,12 @@ class JWToken
         return JWT::encode($payload, self::$secret, self::$algo);
     }
 
-    public static function validate(string $token): ?object
+    public static function validate(string $token): bool
     {
         try {
-            return JWT::decode($token, new Key(self::$secret, self::$algo));
+            return (bool) JWT::decode($token, new Key(self::$secret, self::$algo));
         } catch (ExpiredException) {
-            return null;
+            return false;
         }
     }
 }
