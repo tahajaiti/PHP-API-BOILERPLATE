@@ -3,11 +3,12 @@
 namespace app\Core;
 
 use Exception;
+use ReflectionClass;
 
 abstract class Model
 {
 
-    protected int $id;
+    protected int $id = 0;
 
     public function __construct(array $data = [])
     {
@@ -27,7 +28,13 @@ abstract class Model
 
     public function toArray(): array
     {
-        return get_object_vars($this);
+        $data = [];
+        $reflection = new \ReflectionClass($this);
+        foreach ($reflection->getProperties() as $property) {
+            $property->setAccessible(true);
+            $data[$property->getName()] = $property->getValue($this);
+        }
+        return $data;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace app\Core;
 
+use app\Helpers\Helper;
 use Exception;
 use RuntimeException;
 
@@ -17,9 +18,11 @@ abstract class Service
     /**
      * @throws Exception
      */
-    public function create(Request $data): Model
+    public function create(Request $data): ?Model
     {
-        $this->validate($data);
+        if (!$this->validate($data, true)){
+            return null;
+        }
         $model = $this->mapToModel($data);
         $this->repository->setModel($model);
 
@@ -33,9 +36,11 @@ abstract class Service
     /**
      * @throws Exception
      */
-    public function update(Request $data): Model
+    public function update(Request $data): ?Model
     {
-        $this->validate($data);
+        if (!$this->validate($data, false)){
+            return null;
+        }
         $model = $this->findModelById($data->get('id'));
         $model->fill($data->all());
         $this->repository->setModel($model);
@@ -75,7 +80,7 @@ abstract class Service
         return $result;
     }
 
-    abstract protected function validate(Request $data): void;
+    abstract protected function validate(Request $data, bool $isCreate): bool;
     abstract protected function mapToModel(Request $data): Model;
     abstract protected function getModelClass(): string;
 }

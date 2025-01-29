@@ -48,6 +48,7 @@ class Repository
     public function create(): bool
     {
         $data = $this->model->toArray();
+        unset($data["id"]);
         $cols = implode(', ', array_keys($data));
         $values = ":" . implode(", :", array_keys($data));
 
