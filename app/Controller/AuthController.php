@@ -5,7 +5,6 @@ use app\Core\Request;
 use app\Core\Response;
 use app\Core\Service;
 use app\Core\Validator;
-use app\Helpers\Helper;
 use app\Repository\UserRepository;
 use app\Service\AuthService;
 use Exception;
@@ -34,7 +33,6 @@ class AuthController
         if ($result){
             return Response::success($result,'Login successful');
         }
-
         return Response::error( 'Login failed', 200, Validator::errors());
     }
 

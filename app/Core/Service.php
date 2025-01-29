@@ -2,7 +2,6 @@
 
 namespace app\Core;
 
-use app\Helpers\Helper;
 use Exception;
 use RuntimeException;
 
@@ -62,7 +61,8 @@ abstract class Service
         if (!$this->validate($data, false)){
             return null;
         }
-        $model = $this->findModelById($data->get('id'));
+
+        $model = new ($this->getModelClass());
         $model->fill($data->all());
         $this->repository->setModel($model);
 

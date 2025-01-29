@@ -1,8 +1,8 @@
 <?php
 namespace app\Core;
 
-use PDO;
 use Exception;
+use PDO;
 use PDOException;
 use PDOStatement;
 use RuntimeException;

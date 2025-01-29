@@ -6,13 +6,12 @@
 namespace app\Handler;
 
 use app\Core\Response;
-use Exception;
+use InvalidArgumentException;
 use JsonException;
+use LogicException;
 use PDOException;
 use RuntimeException;
 use Throwable;
-use LogicException;
-use InvalidArgumentException;
 
 class ExceptionHandler
 {

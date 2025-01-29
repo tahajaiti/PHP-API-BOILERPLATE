@@ -1,8 +1,6 @@
 <?php
 
 namespace app\Core;
-use app\Core\Database;
-use app\Helpers\Helper;
 use Exception;
 
 class Repository
@@ -70,11 +68,8 @@ class Repository
      */
     public function delete(): bool
     {
-        $data = $this->model->toArray();
-
         $sql = "DELETE FROM {$this->table} WHERE id = :id";
-
-        return (bool) $this->db->execute($sql,$data);
+        return (bool) $this->db->execute($sql,['id' => $this->model->getId()]);
     }
 
     protected function getModelClass(): string

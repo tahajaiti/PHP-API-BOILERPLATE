@@ -1,6 +1,7 @@
 <?php
 namespace app\Core;
 
+use app\Helpers\Helper;
 use Exception;
 use JsonException;
 use RuntimeException;
@@ -67,6 +68,7 @@ class Router
     {
         array_shift($matches);
         $routeParams = array_combine(array_keys($matches), array_values($matches));
+        array_pop($routeParams);
         $this->request->merge($routeParams);
     }
 

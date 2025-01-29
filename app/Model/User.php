@@ -2,9 +2,7 @@
 
 namespace app\Model;
 
-use app\Core\Database;
 use app\Core\Model;
-use Exception;
 
 class User extends Model
 {

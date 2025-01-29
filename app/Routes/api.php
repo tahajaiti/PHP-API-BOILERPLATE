@@ -1,7 +1,6 @@
 <?php
 
 use app\Core\Router;
-use app\Middleware\AuthMiddleware;
 
 $router = new Router();
 
@@ -9,6 +8,11 @@ $router->add('GET', '/test', 'TestController@test', ['TokenMiddleware']);
 
 $router->add('POST', '/register', 'AuthController@register', ['AuthMiddleware']);
 $router->add('POST', '/login', 'AuthController@login');
+
+$router->add('GET', '/users', 'UserController@index');
+$router->add('GET', '/users/{id}', 'UserController@getById');
+$router->add('PUT', '/users/{id}', 'UserController@update');
+$router->add('DELETE', '/users/{id}', 'UserController@delete');
 
 try {
     $router->dispatch();

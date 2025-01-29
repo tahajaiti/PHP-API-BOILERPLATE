@@ -2,7 +2,6 @@
 
 namespace app\Core;
 
-use app\Helpers\Helper;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use JsonException;

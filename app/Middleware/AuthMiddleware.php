@@ -3,7 +3,6 @@ namespace app\Middleware;
 
 use app\Core\Request;
 use app\Core\Response;
-use app\Helpers\Helper;
 use app\Model\User;
 use app\Repository\UserRepository;
 use Exception;
