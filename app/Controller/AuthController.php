@@ -46,6 +46,7 @@ class AuthController
      */
     public function get(Request $request): Response
     {
+        Helper::dd($request);
         $data = $this->service->getById($request->get('id'));
         if ($data){
             return Response::success($data,'Successful');
