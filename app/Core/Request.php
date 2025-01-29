@@ -2,6 +2,7 @@
 
 namespace app\Core;
 
+use app\Helpers\Helper;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use JsonException;
@@ -40,6 +41,10 @@ class Request {
                 $value = $purifier->purify($value);
             }
         });
+    }
+
+    public function merge(array $data):void {
+        $this->data = array_merge($this->data, $data);
     }
 
     public function get(string $key, $default = null)

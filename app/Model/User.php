@@ -37,4 +37,13 @@ class User extends Model
         $this->password = password_hash($password, PASSWORD_BCRYPT);
     }
 
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
+    }
+
 }

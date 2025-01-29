@@ -18,6 +18,27 @@ abstract class Service
     /**
      * @throws Exception
      */
+    public function getAll(): array
+    {
+        $model = $this->getModelClass();
+        $model = new $model();
+        $this->repository->setModel($model);
+       return $this->repository->findAll();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getById(int $id): ?Model{
+        $model = $this->findModelById($id);
+        $this->repository->setModel($model);
+
+        return $this->repository->find();
+    }
+
+    /**
+     * @throws Exception
+     */
     public function create(Request $data): ?Model
     {
         if (!$this->validate($data, true)){

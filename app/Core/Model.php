@@ -3,9 +3,11 @@
 namespace app\Core;
 
 use Exception;
+use JsonSerializable;
 use ReflectionClass;
+use RuntimeException;
 
-abstract class Model
+abstract class Model implements JsonSerializable
 {
 
     protected int $id = 0;
@@ -29,7 +31,7 @@ abstract class Model
     public function toArray(): array
     {
         $data = [];
-        $reflection = new \ReflectionClass($this);
+        $reflection = new ReflectionClass($this);
         foreach ($reflection->getProperties() as $property) {
             $property->setAccessible(true);
             $data[$property->getName()] = $property->getValue($this);
@@ -51,12 +53,14 @@ abstract class Model
                 return $this;
             }
         }
-        throw new \RuntimeException("Method {name} not found in " . static::class);
+        throw new RuntimeException("Method {name} not found in " . static::class);
     }
 
     public function getId(): int
     {
         return $this->id;
     }
+
+    abstract public function jsonSerialize(): mixed;
 
 }

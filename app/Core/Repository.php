@@ -37,9 +37,7 @@ class Repository
     public function findAll(): array
     {
         $sql = "SELECT * FROM {$this->table}";
-        $data = $this->db->fetchAll($sql);
-
-        return array_map(fn($row) => new ($this->getModelClass())($row), $data);
+        return $this->db->fetchAll($sql);
     }
 
     /**
