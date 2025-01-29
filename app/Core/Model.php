@@ -14,7 +14,7 @@ abstract class Model
         $this->fill($data);
     }
 
-    private function fill(array $data): void{
+    public function fill(array $data): void{
         foreach ($data as $key => $value) {
             $setter = 'set' . ucfirst($key);
             if (method_exists($this, $setter)) {

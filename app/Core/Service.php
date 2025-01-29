@@ -3,12 +3,13 @@
 namespace app\Core;
 
 use Exception;
+use RuntimeException;
 
-abstract  class Service{
-
+abstract class Service
+{
     protected Repository $repository;
 
-    public function setRepository(Repository $repository): void
+    public function __construct(Repository $repository)
     {
         $this->repository = $repository;
     }
@@ -16,15 +17,14 @@ abstract  class Service{
     /**
      * @throws Exception
      */
-    public function create(Request $request): object
+    public function create(Request $data): Model
     {
-        $this->validate($request);
-        $model = $this->mapToModel($request);
+        $this->validate($data);
+        $model = $this->mapToModel($data);
         $this->repository->setModel($model);
-        $result = $this->repository->create();
 
-        if (!$result) {
-            throw new \RuntimeException('Failed to create model');
+        if (!$this->repository->create()) {
+            throw new RuntimeException('Failed to create model');
         }
 
         return $model;
@@ -33,16 +33,15 @@ abstract  class Service{
     /**
      * @throws Exception
      */
-    public function update(Request $request): object
+    public function update(Request $data): Model
     {
-        $this->validate($request);
-        $model = $this->findModelById($request->get('id'));
-        $model->fill($data);
+        $this->validate($data);
+        $model = $this->findModelById($data->get('id'));
+        $model->fill($data->all());
         $this->repository->setModel($model);
-        $result = $this->repository->update();
 
-        if (!$result) {
-            throw new \RuntimeException("Failed to update entity.");
+        if (!$this->repository->update()) {
+            throw new RuntimeException("Failed to update entity.");
         }
 
         return $model;
@@ -51,20 +50,32 @@ abstract  class Service{
     /**
      * @throws Exception
      */
-    protected function findModelById(int $id): object{
-        $model = $this->getModel();
-        $model->setId($id);
+    public function delete(int $id): bool
+    {
+        $model = $this->findModelById($id);
+        $this->repository->setModel($model);
+
+        return $this->repository->delete();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function findModelById(int $id): Model
+    {
+        $modelClass = $this->getModelClass();
+        $model = new $modelClass(['id' => $id]);
         $this->repository->setModel($model);
         $result = $this->repository->find();
 
-        if (empty($result)) {
-            throw new \RuntimeException("Entity not found.");
+        if (!$result) {
+            throw new RuntimeException("Entity not found.");
         }
 
-        return $model;
+        return $result;
     }
 
-    abstract protected function validate(Request $request);
-    abstract protected function mapToModel(Request $request): object;
-    abstract protected function getModel();
+    abstract protected function validate(Request $data): void;
+    abstract protected function mapToModel(Request $data): Model;
+    abstract protected function getModelClass(): string;
 }

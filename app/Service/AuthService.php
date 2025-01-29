@@ -4,22 +4,23 @@ namespace app\Service;
 
 use app\Core\Request;
 use app\Core\Service;
+use app\Model\User;
 
 class AuthService extends Service
 {
 
-    protected function validate(Request $request)
+    protected function validate(Request $data): void
     {
         // TODO: Implement validate() method.
     }
 
-    protected function mapToModel(Request $request): object
+    protected function mapToModel(Request $data): User
     {
-        // TODO: Implement mapToModel() method.
+        return new User($data->all());
     }
 
-    protected function getModel()
+    protected function getModelClass(): string
     {
-        // TODO: Implement getModel() method.
+        return User::class;
     }
 }
