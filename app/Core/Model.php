@@ -7,6 +7,8 @@ use Exception;
 abstract class Model
 {
 
+    protected int $id;
+
     public function __construct(array $data = [])
     {
         $this->fill($data);
@@ -43,6 +45,11 @@ abstract class Model
             }
         }
         throw new \RuntimeException("Method {name} not found in " . static::class);
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
 }

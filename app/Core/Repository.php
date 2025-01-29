@@ -9,14 +9,14 @@ class Repository
 {
     protected Database $db;
     protected string $table;
-    protected object $model;
+    protected Model $model;
 
     public function __construct(string $table){
         $this->db = Database::getInstance();
         $this->table = $table;
     }
 
-    public function setModel(object $model): void
+    public function setModel(Model $model): void
     {
         $this->model = $model;
     }
@@ -24,10 +24,11 @@ class Repository
     /**
      * @throws Exception
      */
-    public function find(): array{
+    public function find(): ?Model{
         $sql = "SELECT * FROM {$this->table} WHERE id = :id";
+        $data = $this->db->fetch($sql, ["id" => $this->model->getId()]);
 
-        return $this->db->fetch($sql, ['id' => $this->model->getId()]) ?? [];
+        return $data ? new ($this->getModelClass())($data) : null;
     }
 
     /**
@@ -36,8 +37,9 @@ class Repository
     public function findAll(): array
     {
         $sql = "SELECT * FROM {$this->table}";
+        $data = $this->db->fetchAll($sql);
 
-        return $this->db->fetchAll($sql) ?? [];
+        return array_map(fn($row) => new ($this->getModelClass())($row), $data);
     }
 
     /**
@@ -45,7 +47,7 @@ class Repository
      */
     public function create(): bool
     {
-        $data = $this->extractData($this->model);
+        $data = $this->model->toArray();
         $cols = implode(', ', array_keys($data));
         $values = ":" . implode(", :", array_keys($data));
 
@@ -58,7 +60,7 @@ class Repository
      */
     public function update(): bool
     {
-        $data = $this->extractData($this->model);
+        $data = $this->model->toArray();
         $set = implode(', ', array_map(static fn($key) => "{$key} = :{$key}", array_keys($data)));
         $sql = "UPDATE {$this->table} SET {$set} WHERE id = :id";
         return (bool) $this->db->execute($sql, $data);
@@ -69,27 +71,16 @@ class Repository
      */
     public function delete(): bool
     {
-        $data = $this->extractData($this->model);
+        $data = $this->model->toArray();
 
         $sql = "DELETE FROM {$this->table} WHERE id = :id";
 
         return (bool) $this->db->execute($sql,$data);
     }
 
-    public function extractData(object $model): array
+    protected function getModelClass(): string
     {
-        $data = [];
-        $reflection = new \ReflectionClass($model);
-        $properties = $reflection->getProperties();
-
-        foreach ($properties as $property) {
-            $getter = 'get' . $property->getName();
-            if (method_exists($model, $getter)) {
-                $data[$property->getName()] = $model->$getter();
-            }
-        }
-
-        return $data;
+        return get_class($this->model);
     }
 
 }

@@ -8,7 +8,6 @@ use Exception;
 
 class User extends Model
 {
-    private int $id;
     private string $name;
     private string $email;
     private string $password;
