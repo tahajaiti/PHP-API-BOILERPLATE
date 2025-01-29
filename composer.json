@@ -15,6 +15,7 @@
     "require": {
         "firebase/php-jwt": "^6.11",
       "ext-ctype": "*",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+        "ezyang/htmlpurifier": "^4.18"
     }
 }

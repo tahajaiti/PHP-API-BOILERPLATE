@@ -3,13 +3,22 @@
         'name' => 'tahajaiti/api_boilerplate',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '764fe78409a089906b81cd3453f323dccae1b34d',
+        'reference' => '4c93554301fc9904e04344f763856a0cb8641e8a',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'ezyang/htmlpurifier' => array(
+            'pretty_version' => 'v4.18.0',
+            'version' => '4.18.0.0',
+            'reference' => 'cb56001e54359df7ae76dc522d08845dc741621b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ezyang/htmlpurifier',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'firebase/php-jwt' => array(
             'pretty_version' => 'v6.11.0',
             'version' => '6.11.0.0',
@@ -22,7 +31,7 @@
         'tahajaiti/api_boilerplate' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '764fe78409a089906b81cd3453f323dccae1b34d',
+            'reference' => '4c93554301fc9904e04344f763856a0cb8641e8a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

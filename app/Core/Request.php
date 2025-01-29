@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Core;
+namespace app\Core;
 
+use HTMLPurifier;
+use HTMLPurifier_Config;
 use JsonException;
 
 class Request {
@@ -25,6 +27,19 @@ class Request {
                 $this->data = array_merge($this->data, $json);
             }
         }
+
+        $this->sanitize();
+    }
+
+    private function sanitize():void
+    {
+        $config = HTMLPurifier_Config::createDefault();
+        $purifier = new HTMLPurifier($config);
+        array_walk_recursive($this->data, static function (&$value) use (&$purifier) {
+            if (is_string($value)) {
+                $value = $purifier->purify($value);
+            }
+        });
     }
 
     public function get(string $key, $default = null)

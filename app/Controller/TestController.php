@@ -1,7 +1,7 @@
 <?php
 
 namespace app\Controller;
-use App\Core\Request;
+use app\Core\Request;
 use app\Core\Response;
 use app\Helpers\Helper;
 
