@@ -1,5 +1,4 @@
 <?php
-
 use app\Core\Router;
 
 $router = new Router();
@@ -16,7 +15,6 @@ $router->add('DELETE', '/users/{id}', 'UserController@delete');
 
 try {
     $router->dispatch();
-
 } catch (Exception $e) {
     throw new \RuntimeException($e->getMessage());
 }

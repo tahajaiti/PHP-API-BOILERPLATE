@@ -8,6 +8,12 @@ use Exception;
 class UserRepository extends Repository
 {
 
+    public function findAll(): array
+    {
+        $sql = "SELECT id, name, email FROM {$this->table}";
+        return $this->db->fetchAll($sql);
+    }
+
     /**
      * @throws Exception
      */
