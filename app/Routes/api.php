@@ -6,7 +6,7 @@ $router = new Router();
 
 $router->add('GET', '/test', 'TestController@test', ['TokenMiddleware']);
 
-$router->add('POST', '/register', 'AuthController@register', ['AuthMiddleware']);
+$router->add('POST', '/register', 'AuthController@create', ['AuthMiddleware']);
 $router->add('POST', '/login', 'AuthController@login');
 
 $router->add('GET', '/users', 'UserController@index');

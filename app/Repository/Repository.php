@@ -1,6 +1,8 @@
 <?php
 
-namespace app\Core;
+namespace app\Repository;
+use app\Core\Database;
+use app\Model\Model;
 use Exception;
 
 class Repository

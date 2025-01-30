@@ -1,7 +1,10 @@
 <?php
 
-namespace app\Core;
+namespace app\Service;
 
+use app\Core\Request;
+use app\Model\Model;
+use app\Repository\Repository;
 use Exception;
 use RuntimeException;
 

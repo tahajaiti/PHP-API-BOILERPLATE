@@ -2,10 +2,9 @@
 
 namespace app\Service;
 
-use app\Core\Model;
 use app\Core\Request;
-use app\Core\Service;
 use app\Core\Validator;
+use app\Model\Model;
 use app\Model\User;
 
 class UserService extends Service

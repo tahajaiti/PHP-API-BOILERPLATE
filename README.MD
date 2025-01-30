@@ -7,6 +7,7 @@
 * [Folder Structure](#folder-structure)
 * [Usage](#usage)
 * [Contributing](#contributing)
+* [License](#license)
 <!-- TOC -->
 
 ## Overview
@@ -26,6 +27,7 @@ This is a lightweight and efficient PHP API boilerplate designed to provide a st
 * **JSON Support**: Automatic JSON parsing and encoding for seamless data handling.
 * **JWT Support**: Built-in JSON Web Tokens (JWT) creation and validation using the Firebase JWT library.
 * **Environment Configuration**: Easy configuration management for different environments (development, staging, production).
+* **Composer Integration**: Manage dependencies effortlessly with Composer.
 
 ## Folder Structure
 
@@ -56,7 +58,12 @@ This is a lightweight and efficient PHP API boilerplate designed to provide a st
 3. Add business logic in `app/Service/`.
 4. Use `app/Middleware/` for request filtering.
 5. Handle database operations in `app/Repository/`.
+6. Configure environment variables in `config.php`.
 
 ## Contributing
 
 Contributions are welcome! Feel free to submit pull requests or open issues for improvements.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

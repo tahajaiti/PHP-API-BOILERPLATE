@@ -3,16 +3,14 @@
 namespace app\Controller;
 use app\Core\Request;
 use app\Core\Response;
-use app\Core\Service;
 use app\Core\Validator;
 use app\Repository\UserRepository;
 use app\Service\AuthService;
+use app\Service\Service;
 use Exception;
 
-class AuthController
+class AuthController extends Controller
 {
-
-    private Service $service;
 
     public function __construct(){
         $this->service = new AuthService(new UserRepository('users'));
@@ -21,7 +19,7 @@ class AuthController
     /**
      * @throws Exception
      */
-    public function register(Request $request): Response {
+    public function create(Request $request): Response {
         if ($this->service->create($request)){
             return Response::success(null,'Registration successful');
         }

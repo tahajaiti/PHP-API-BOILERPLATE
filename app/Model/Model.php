@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Core;
+namespace app\Model;
 
 use Exception;
 use JsonSerializable;

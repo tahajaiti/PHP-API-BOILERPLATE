@@ -2,8 +2,6 @@
 
 namespace app\Model;
 
-use app\Core\Model;
-
 class User extends Model
 {
     private string $name;

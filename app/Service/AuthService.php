@@ -4,7 +4,6 @@ namespace app\Service;
 
 use app\Core\JWToken;
 use app\Core\Request;
-use app\Core\Service;
 use app\Core\Validator;
 use app\Model\User;
 
