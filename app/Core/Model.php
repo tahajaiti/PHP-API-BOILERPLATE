@@ -17,7 +17,8 @@ abstract class Model implements JsonSerializable
         $this->fill($data);
     }
 
-    public function fill(array $data): void{
+    public function fill(array $data): void
+    {
         foreach ($data as $key => $value) {
             $setter = 'set' . ucfirst($key);
             if (method_exists($this, $setter)) {
@@ -41,7 +42,8 @@ abstract class Model implements JsonSerializable
     /**
      * @throws Exception
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if (preg_match('/^(get|set)([A-Z][a-zA-Z0-9]*)$/', $name, $matches)) {
             $property = lcfirst($matches[2]);
             $reflection = new ReflectionClass($this);
