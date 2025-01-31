@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Repository;
+namespace app\Interfaces;
 
-use app\Model\ModelInt;
+use app\Model\Model;
 
 /**
  * Interface RepositoryInt
@@ -14,9 +14,9 @@ interface RepositoryInt
     /**
      * Searches for and retrieves a specific instance of ModelInt.
      *
-     * @return ModelInt|null Returns the found ModelInt instance or null if not found.
+     * @return Model|null Returns the found ModelInt instance or null if not found.
      */
-    public function find(): ?ModelInt;
+    public function find(): ?Model;
 
     /**
      * Retrieves all instances of the associated model.

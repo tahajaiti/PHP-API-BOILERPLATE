@@ -1,5 +1,7 @@
 <?php
 
+namespace app\Interfaces;
+
 use app\Core\Request;
 use app\Core\Response;
 

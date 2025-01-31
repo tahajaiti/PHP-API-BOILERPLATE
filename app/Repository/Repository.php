@@ -5,6 +5,7 @@ namespace app\Repository;
 use app\Core\Database;
 use app\Core\QueryBuilder;
 use app\Model\Model;
+use app\Interfaces\RepositoryInt;
 
 class Repository implements RepositoryInt
 {

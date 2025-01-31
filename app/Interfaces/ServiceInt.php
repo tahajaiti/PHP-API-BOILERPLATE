@@ -3,7 +3,7 @@
 namespace app\Interfaces;
 
 use app\Core\Request;
-use app\Model\ModelInt;
+use app\Model\Model;
 
 interface ServiceInt
 {
@@ -18,9 +18,9 @@ interface ServiceInt
      * Fetches a record by ID from the repository or Redis cache.
      *
      * @param int $id
-     * @return ModelInt|null
+     * @return Model|null
      */
-    public function getById(int $id): ?ModelInt;
+    public function getById(int $id): ?Model;
 
     /**
      * Creates a new record in the repository.

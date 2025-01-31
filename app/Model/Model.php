@@ -6,6 +6,7 @@ use Exception;
 use JsonSerializable;
 use ReflectionClass;
 use RuntimeException;
+use app\Interfaces\ModelInt;
 
 abstract class Model implements JsonSerializable, ModelInt
 {

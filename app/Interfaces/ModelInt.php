@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Model;
+namespace app\Interfaces;
 
 /**
  * Interface representing a general model with basic functionality for data handling and serialization.

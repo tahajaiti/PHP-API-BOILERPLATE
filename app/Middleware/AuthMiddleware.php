@@ -5,6 +5,7 @@ use app\Core\Request;
 use app\Core\Response;
 use app\Model\User;
 use app\Repository\UserRepository;
+use app\Interfaces\MiddlewareInt;
 
 class AuthMiddleware implements MiddlewareInt
 {

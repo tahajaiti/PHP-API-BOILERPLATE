@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Middleware;
+namespace app\Interfaces;
 
 use app\Core\Request;
 use app\Core\Response;
