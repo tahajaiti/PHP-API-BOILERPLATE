@@ -44,7 +44,8 @@ class Repository
      */
     public function findAll(): array
     {
-        $sql = "SELECT * FROM {$this->table}";
+        $this->query->select();
+        $sql = $this->query->getQuery();
         return $this->db->fetchAll($sql);
     }
 
@@ -54,11 +55,9 @@ class Repository
     public function create(): bool
     {
         $data = $this->model->toArray();
-        unset($data["id"]);
-        $cols = implode(', ', array_keys($data));
-        $values = ":" . implode(", :", array_keys($data));
+        $this->query->insert($data);
+        $sql = $this->query->getQuery();
 
-        $sql = "INSERT INTO {$this->table} ({$cols}) VALUES ({$values})";
         return (bool) $this->db->execute($sql,$data);
     }
 
@@ -68,9 +67,13 @@ class Repository
     public function update(): bool
     {
         $data = $this->model->toArray();
-        $set = implode(', ', array_map(static fn($key) => "{$key} = :{$key}", array_keys($data)));
-        $sql = "UPDATE {$this->table} SET {$set} WHERE id = :id";
-        return (bool) $this->db->execute($sql, $data);
+
+        $this->query->update($data)->where('id', '=', $this->model->getId());
+
+        $sql = $this->query->getQuery();
+        $params = $this->query->getParams();
+
+        return (bool) $this->db->execute($sql, $params);
     }
 
     /**
@@ -78,8 +81,9 @@ class Repository
      */
     public function delete(): bool
     {
-        $sql = "DELETE FROM {$this->table} WHERE id = :id";
-        return (bool) $this->db->execute($sql,['id' => $this->model->getId()]);
+        $sql = $this->query->delete()->where('id', '=', $this->model->getId())->getQuery();
+        $param = $this->query->getParams();
+        return (bool) $this->db->execute($sql,$param);
     }
 
     protected function getModelClass(): string

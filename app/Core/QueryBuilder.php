@@ -59,9 +59,10 @@ class QueryBuilder
 
     public function update(array $data): QueryBuilder
     {
+        unset($data["id"]);
         $set = implode(', ', array_map(static fn($key) => "{$key} = :{$key}", array_keys($data)));
         $this->query = "UPDATE {$this->table} SET {$set}";
-        $this->params = array_values($data);
+        $this->params = $data;
         return $this;
     }
 

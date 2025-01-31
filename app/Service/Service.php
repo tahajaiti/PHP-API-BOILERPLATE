@@ -30,6 +30,7 @@ abstract class Service
     public function getAll(): array
     {
         $key = $this->generateRedisKey('all');
+//      $this->redis->del($key);
         $data = $this->getFromRedis($key);
 
         if ($data) {
@@ -156,7 +157,7 @@ abstract class Service
      */
     protected function storeInRedis(string $key, mixed $data): void
     {
-        $this->redis->setex($key, 3600, json_encode($data, JSON_THROW_ON_ERROR));
+        $this->redis->setex($key, 30, json_encode($data, JSON_THROW_ON_ERROR));
     }
 
     /**
