@@ -1,6 +1,5 @@
 # PHP API Boilerplate
 
-<!-- TOC -->
 * [PHP API Boilerplate](#php-api-boilerplate)
 * [Overview](#overview)
 * [Features](#features)
@@ -8,7 +7,6 @@
 * [Usage](#usage)
 * [Contributing](#contributing)
 * [License](#license)
-<!-- TOC -->
 
 ## Overview
 
@@ -66,4 +64,4 @@ Contributions are welcome! Feel free to submit pull requests or open issues for 
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+I really don't know how can this get licensed, but its open source do whatever, issa free world we live in.
