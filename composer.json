@@ -16,6 +16,7 @@
         "firebase/php-jwt": "^6.11",
       "ext-ctype": "*",
       "ext-pdo": "*",
-        "ezyang/htmlpurifier": "^4.18"
+        "ezyang/htmlpurifier": "^4.18",
+      "ext-redis": "*"
     }
 }

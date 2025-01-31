@@ -1,0 +1,7 @@
+{
+  "GET:/users": "view_users",
+  "GET:/users/{id}": "view_user",
+  "POST:/users": "create_user",
+  "PUT:/users/{id}": "edit_user",
+  "DELETE:/users/{id}": "delete_user"
+}
