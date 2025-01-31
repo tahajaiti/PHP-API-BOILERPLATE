@@ -11,6 +11,7 @@ require_once "vendor/autoload.php";
 
 use app\Handler\ErrorHandler;
 use app\Handler\ExceptionHandler;
+use app\Core\RedisClient;
 
 //Configure and register the error and exception handlers
 ExceptionHandler::configure(true);
@@ -19,6 +20,8 @@ ErrorHandler::configure(
     logFile: __DIR__ . '/logs/error.log'
 );
 ErrorHandler::register();
+
+RedisClient::getRedis();
 
 try {
     require_once "config.php";

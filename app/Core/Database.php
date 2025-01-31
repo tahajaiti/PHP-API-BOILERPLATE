@@ -1,194 +1,95 @@
 <?php
 namespace app\Core;
 
-use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
 use RuntimeException;
 
-/**
- * Class Database
- *
- * Handles database connections and queries using PDO.
- */
-class Database
-{
-    private static ?Database $instance = null;
-    private string $host;
-    private string $port;
-    private string $dbname;
-    private string $user;
-    private string $password;
+class Database {
+    private static ?self $instance = null;
     private ?PDO $pdo = null;
+    private array $config;
 
-    /**
-     * Database constructor.
-     *
-     * Initializes the database connection using global constants.
-     *
-     * @throws Exception
-     */
-    private function __construct()
-    {
-        $this->host = DB_HOST;
-        $this->port = DB_PORT;
-        $this->dbname = DB_NAME;
-        $this->user = DB_USER;
-        $this->password = DB_PASS;
-        $this->initDatabase();
+    private function __construct() {
+        $this->config = [
+            'host' => DB_HOST,
+            'port' => DB_PORT,
+            'dbname' => DB_NAME,
+            'user' => DB_USER,
+            'pass' => DB_PASS
+        ];
+        $this->initConnection();
     }
 
-    /**
-     * Returns an instance of the Database class.
-     *
-     * @return Database
-     */
-    public static function getInstance(): self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-        return self::$instance;
+    public static function getInstance(): self {
+        return self::$instance ?? new self();
     }
 
-    /**
-     * Initializes the database by checking if the database exists.
-     * If not, it creates a new one and connects to it.
-     *
-     * @throws Exception
-     */
-    private function initDatabase(): void
-    {
-        $dsn = "pgsql:host=" . $this->host . ";port=" . $this->port;
-
+    private function initConnection(): void {
         try {
-            $tempPDO = new PDO($dsn, $this->user, $this->password);
+            $tempDsn = "pgsql:host={$this->config['host']};port={$this->config['port']}";
+            $tempPDO = new PDO($tempDsn, $this->config['user'], $this->config['pass']);
             $tempPDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $stmt = $tempPDO->prepare("SELECT 1 FROM pg_database WHERE datname = :dbname");
-            $stmt->execute(['dbname' => $this->dbname]);
-            $exists = $stmt->fetchColumn();
-
-            if (!$exists) {
-                $tempPDO->exec("CREATE DATABASE " . $this->dbname);
+            if (!$this->databaseExists($tempPDO)) {
+                $tempPDO->exec("CREATE DATABASE {$this->config['dbname']}");
             }
 
-            $tempPDO = null;
-
             $this->connect();
         } catch (PDOException $e) {
-            throw new RuntimeException("Database initialization failed: " . $e->getMessage());
+            throw new RuntimeException("Database initialization failed: {$e->getMessage()}");
         }
     }
 
-    /**
-     * Establishes a connection to the database.
-     *
-     * @throws Exception
-     */
-    private function connect(): void
-    {
-        $dsn = "pgsql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->dbname;
+    private function databaseExists(PDO $pdo): bool {
+        $stmt = $pdo->prepare("SELECT 1 FROM pg_database WHERE datname = :dbname");
+        $stmt->execute(['dbname' => $this->config['dbname']]);
+        return (bool)$stmt->fetchColumn();
+    }
+
+    private function connect(): void {
+        $dsn = "pgsql:host={$this->config['host']};port={$this->config['port']};dbname={$this->config['dbname']}";
         try {
-            $this->pdo = new PDO($dsn, $this->user, $this->password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->pdo = new PDO($dsn, $this->config['user'], $this->config['pass'], [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false
+            ]);
         } catch (PDOException $e) {
-            throw new RuntimeException("Database connection failed: " . $e->getMessage());
+            throw new RuntimeException("Database connection failed: {$e->getMessage()}");
         }
     }
 
-    /**
-     * Prepares and executes a SQL statement.
-     *
-     * @param string $sql The SQL query to execute.
-     * @param array $params The parameters to bind to the query.
-     * @return PDOStatement|null
-     * @throws Exception
-     */
-    public function prepareExecute(string $sql, array $params = []): ?PDOStatement
-    {
-        if ($this->pdo === null) {
-            $this->connect();
-        }
+    public function query(string $sql, array $params = []): PDOStatement {
+        $this->pdo ??= $this->connect();
 
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
             return $stmt;
         } catch (PDOException $e) {
-            throw new RuntimeException("Query execution failed: " . $e->getMessage());
+            throw new RuntimeException("Query execution failed: {$e->getMessage()}");
         }
     }
 
-    /**
-     * Fetches all rows from a SQL query.
-     *
-     * @param string $sql The SQL query to execute.
-     * @param array $params The parameters to bind to the query.
-     * @return array
-     * @throws Exception
-     */
-    public function fetchAll(string $sql, array $params = []): array
-    {
-        $stmt = $this->prepareExecute($sql, $params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function fetchAll(string $sql, array $params = []): array {
+        return $this->query($sql, $params)->fetchAll();
     }
 
-    /**
-     * Fetches a single row from a SQL query.
-     *
-     * @param string $sql The SQL query to execute.
-     * @param array $params The parameters to bind to the query.
-     * @return array|null
-     * @throws Exception
-     */
-    public function fetch(string $sql, array $params = []): ?array
-    {
-        $stmt = $this->prepareExecute($sql, $params);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ?: null;
+    public function fetch(string $sql, array $params = []): ?array {
+        return $this->query($sql, $params)->fetch() ?: null;
     }
 
-    /**
-     * Fetches a single column from a SQL query.
-     *
-     * @param string $sql The SQL query to execute.
-     * @param array $params The parameters to bind to the query.
-     * @return array
-     * @throws Exception
-     */
-    public function fetchCol(string $sql, array $params = []): array
-    {
-        $stmt = $this->prepareExecute($sql, $params);
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    public function fetchColumn(string $sql, array $params = []): array {
+        return $this->query($sql, $params)->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    /**
-     * Executes a SQL statement and returns the number of affected rows.
-     *
-     * @param string $sql The SQL query to execute.
-     * @param array $params The parameters to bind to the query.
-     * @return int
-     * @throws Exception
-     */
-    public function execute(string $sql, array $params = []): int
-    {
-        $stmt = $this->prepareExecute($sql, $params);
-        return $stmt->rowCount();
+    public function execute(string $sql, array $params = []): int {
+        return $this->query($sql, $params)->rowCount();
     }
 
-    /**
-     * Returns the last inserted ID.
-     *
-     * @return int
-     * @throws Exception
-     */
-    public function lastInsertId(): int
-    {
-        if ($this->pdo === null) {
-            $this->connect();
-        }
-        return (int) $this->pdo->lastInsertId();
+    public function lastInsertId(): string {
+        return $this->pdo?->lastInsertId() ?? throw new RuntimeException("No active connection");
     }
 }

@@ -26,9 +26,13 @@ class UserService extends Service
         return empty(Validator::errors());
     }
 
-    protected function mapToModel(Request $data): Model
+    protected function mapToModel(Request|array $data): Model
     {
-        return new User($data->all());
+        if ($data instanceof Request) {
+            $data = $data->all();
+        }
+
+        return new User($data);
     }
 
     protected function getModelClass(): string

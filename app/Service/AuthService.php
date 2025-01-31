@@ -50,7 +50,7 @@ class AuthService extends Service
         return empty(Validator::errors());
     }
 
-    protected function mapToModel(Request $data): User
+    protected function mapToModel(Request|array $data): User
     {
         return new User($data->all());
     }
