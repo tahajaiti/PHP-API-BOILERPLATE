@@ -1,67 +1,53 @@
 # PHP API Boilerplate
 
-* [PHP API Boilerplate](#php-api-boilerplate)
-* [Overview](#overview)
-* [Features](#features)
-* [Folder Structure](#folder-structure)
-* [Usage](#usage)
-* [Contributing](#contributing)
-* [License](#license)
-
 ## Overview
-
-This is a lightweight and efficient PHP API boilerplate designed to provide a structured and scalable foundation for building RESTful APIs. It follows a clean architecture pattern, incorporating models, controllers, services, repositories, a router, and custom exception handlers.
+A lightweight, efficient PHP boilerplate that provides a well-structured foundation for building RESTful APIs. It implements clean architecture across models, controllers, services, repositories, a router, and exception handlers, enabling scalability and maintainability.
 
 ## Features
+- **Dynamic Routing System**: Custom-built for flexible API request handling.
+- **Separation of Concerns**: Modular MVC structure including Models, Controllers, and Services.
+- **Abstraction Layer**: Repositories for data management.
+- **Middleware**: Simplifies tasks like authentication, validation, and logging.
+- **Centralized Exception Handler**: Ensures consistent and predictable error responses.
+- **Request & Response Standardization**:
+  - Input validation and sanitization.
+  - Structured API responses.
+- **JSON Web Token (JWT) Integration**: Robust authentication via Firebase JWT library.
+- **Environment Configuration**: Supports development, staging, and production setups.
+- **Dependency Management**: Composer integration for streamlined package usage.
 
-* **Routing System**: Custom-built router to handle API requests dynamically.
-* **MVC Structure**: Organized with Models, Controllers, and Services for clean separation of concerns.
-* **Repositories**: Abstracted data access layer for better maintainability and testability.
-* **Middleware Support**: Easily add middleware for authentication, logging, validation, and more.
-* **Custom Exception Handling**: Centralized error handling for consistent API responses.
-* **Request & Response Management**:
-  * Request class for input sanitization and validation.
-  * Response class for standardized API outputs.
-* **JSON Support**: Automatic JSON parsing and encoding for seamless data handling.
-* **JWT Support**: Built-in JSON Web Tokens (JWT) creation and validation using the Firebase JWT library.
-* **Environment Configuration**: Easy configuration management for different environments (development, staging, production).
-* **Composer Integration**: Manage dependencies effortlessly with Composer.
-
-## Folder Structure
-
+## Directory Structure
 ```php
-│── app/              # Main application directory  
-│   ├── Controller/   # Handles HTTP requests and responses  
-│   ├── Core/         # Core system components (Router, Request, Response)  
-│   ├── Handler/      # Custom exception and error handlers  
-│   ├── Helpers/      # Utility functions and helper classes  
-│   ├── Middleware/   # Middleware for request filtering (e.g., auth, logging)  
-│   ├── Model/        # Data models representing database entities  
-│   ├── Repository/   # Database abstraction layer for interacting with models  
-│   ├── Routes/       # Route definitions for the API  
-│   ├── Service/      # Business logic and application services  
-│  
-├── vendor/           # Composer dependencies (autoloaded packages)  
-├── .htaccess         # Apache configuration for URL rewriting  
-├── composer.json     # Composer package manager file  
-├── composer.lock     # Locks Composer dependencies  
-├── config.php        # Configuration file for database, environment variables, etc.  
-├── index.php         # Main entry point of the application 
+│── app/                 # Main application directory
+│   ├── Controller/      # Manages HTTP requests & responses
+│   ├── Core/            # Core system components (router, request, etc.)
+│   ├── Handler/         # Error & exception handling
+│   ├── Helpers/         # Reusable utilities
+│   ├── Middleware/      # Scripts for pre/post-request processing
+│   ├── Model/           # Data layers & database entities
+│   ├── Repository/      # Abstracted database interactions
+│   ├── Routes/          # Definitions of API routes
+│   ├── Service/         # Business logic implementations
+│
+├── vendor/              # Composer-managed dependencies
+├── .htaccess            # URL rewriting configuration
+├── composer.json        # Dependency manager configuration
+├── composer.lock        # Dependency version locks
+├── config.php           # Settings (database, environment variables)
+├── index.php            # Application entry point
 ```
 
 ## Usage
-
-1. Define API routes in `app/Routes/`.
-2. Implement controllers in `app/Controller/`.
-3. Add business logic in `app/Service/`.
-4. Use `app/Middleware/` for request filtering.
-5. Handle database operations in `app/Repository/`.
-6. Configure environment variables in `config.php`.
+1. Define API endpoints in `app/Routes/`.
+2. Define database Entities in `app/Models`.
+3. Implement endpoint logic in `app/Controller/`.
+4. Write application-specific logic in `app/Service/`.
+5. Add `app/Middleware/` for tasks like authentication and logging.
+6. Use `app/Repository/` for database operations.
+7. Update `config.php` for environment variables (e.g., production).
 
 ## Contributing
-
-Contributions are welcome! Feel free to submit pull requests or open issues for improvements.
+We encourage contributions. Feel free to open pull requests or issues to suggest improvements.
 
 ## License
-
-I really don't know how can this get licensed, but its open source do whatever, issa free world we live in.
+This project is licensed under an open-source model—free to use or modify under applicable legal terms.
