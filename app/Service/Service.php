@@ -4,11 +4,12 @@ namespace app\Service;
 
 use app\Core\RedisClient;
 use app\Core\Request;
+use app\Interfaces\ServiceInt;
 use app\Model\Model;
 use app\Repository\Repository;
 use Redis;
 
-abstract class Service
+abstract class Service implements ServiceInt
 {
     protected Repository $repository;
     protected Redis $redis;

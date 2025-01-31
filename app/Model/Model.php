@@ -7,7 +7,7 @@ use JsonSerializable;
 use ReflectionClass;
 use RuntimeException;
 
-abstract class Model implements JsonSerializable
+abstract class Model implements JsonSerializable, ModelInt
 {
 
     protected int $id = 0;

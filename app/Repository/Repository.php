@@ -6,7 +6,7 @@ use app\Core\Database;
 use app\Core\QueryBuilder;
 use app\Model\Model;
 
-class Repository
+class Repository implements RepositoryInt
 {
     protected Database $db;
     protected Model $model;

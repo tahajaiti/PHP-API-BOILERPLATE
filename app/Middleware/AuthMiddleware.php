@@ -6,7 +6,7 @@ use app\Core\Response;
 use app\Model\User;
 use app\Repository\UserRepository;
 
-class AuthMiddleware
+class AuthMiddleware implements MiddlewareInt
 {
 
     public function handle(Request $request): ?Response

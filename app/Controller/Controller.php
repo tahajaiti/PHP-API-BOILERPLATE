@@ -6,8 +6,9 @@ use app\Core\Request;
 use app\Core\Response;
 use app\Core\Validator;
 use app\Service\Service;
+use ControllerInt;
 
-abstract class Controller
+abstract class Controller implements ControllerInt
 {
     protected Service $service;
 

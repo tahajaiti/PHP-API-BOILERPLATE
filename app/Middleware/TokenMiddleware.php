@@ -6,15 +6,15 @@ use app\Core\JWToken;
 use app\Core\Request;
 use app\Core\Response;
 
-class TokenMiddleware
+class TokenMiddleware implements MiddlewareInt
 {
 
-    public function handle(Request $request): true|Response
+    public function handle(Request $request): ?Response
     {
         $token = $request->getHeader('Authorization');
         if (!JWToken::validate($token)) {
             return Response::error('Invalid credentials');
         }
-        return true;
+        return null;
     }
 }
