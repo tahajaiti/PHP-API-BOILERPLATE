@@ -6,13 +6,12 @@ use app\Core\RedisClient;
 use app\Core\Request;
 use app\Model\Model;
 use app\Repository\Repository;
-use Exception;
-use JsonException;
+use Redis;
 
 abstract class Service
 {
     protected Repository $repository;
-    protected \Redis $redis;
+    protected Redis $redis;
 
     public function __construct(Repository $repository)
     {
@@ -24,8 +23,6 @@ abstract class Service
      * Fetches all records from the repository or Redis cache.
      *
      * @return array
-     * @throws JsonException
-     * @throws Exception
      */
     public function getAll(): array
     {
@@ -50,8 +47,6 @@ abstract class Service
      *
      * @param int $id
      * @return Model|null
-     * @throws JsonException
-     * @throws Exception
      */
     public function getById(int $id): ?Model
     {
@@ -75,7 +70,6 @@ abstract class Service
      *
      * @param Request $data
      * @return bool
-     * @throws Exception
      */
     public function create(Request $data): bool
     {
@@ -94,7 +88,6 @@ abstract class Service
      *
      * @param Request $data
      * @return bool
-     * @throws Exception
      */
     public function update(Request $data): bool
     {
@@ -114,7 +107,6 @@ abstract class Service
      *
      * @param int $id
      * @return bool
-     * @throws Exception
      */
     public function delete(int $id): bool
     {
@@ -140,12 +132,11 @@ abstract class Service
      *
      * @param string $key
      * @return array|null
-     * @throws JsonException
      */
     protected function getFromRedis(string $key): ?array
     {
         $data = $this->redis->get($key);
-        return $data ? json_decode($data, true, 512, JSON_THROW_ON_ERROR) : null;
+        return $data ? json_decode($data, true) : null;
     }
 
     /**
@@ -153,11 +144,10 @@ abstract class Service
      *
      * @param string $key
      * @param mixed $data
-     * @throws JsonException
      */
     protected function storeInRedis(string $key, mixed $data): void
     {
-        $this->redis->setex($key, 30, json_encode($data, JSON_THROW_ON_ERROR));
+        $this->redis->setex($key, 30, json_encode($data));
     }
 
     /**

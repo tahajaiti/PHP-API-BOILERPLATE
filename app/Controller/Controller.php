@@ -6,34 +6,28 @@ use app\Core\Request;
 use app\Core\Response;
 use app\Core\Validator;
 use app\Service\Service;
-use Exception;
 
 abstract class Controller
 {
     protected Service $service;
 
-    /**
-     * @throws Exception
-     */
-    public function create(Request $request): Response {
-        if ($this->service->create($request)){
-            return Response::success(null,'Created successfully');
+
+    public function create(Request $request): Response
+    {
+        if ($this->service->create($request)) {
+            return Response::success(null, 'Created successfully');
         }
-        return Response::error( 'Creating entity failed', 200, Validator::errors());
+        return Response::error('Creating entity failed', 200, Validator::errors());
     }
 
-    /**
-     * @throws Exception
-     */
+
     public function index(): Response
     {
         $data = $this->service->getAll();
         return Response::success($data);
     }
 
-    /**
-     * @throws Exception
-     */
+
     public function getById(Request $request): Response
     {
         $id = $request->get('id');
@@ -46,9 +40,7 @@ abstract class Controller
         return Response::error($this->getClass() . ' not found', 404);
     }
 
-    /**
-     * @throws Exception
-     */
+
     public function update(Request $request): Response
     {
         $result = $this->service->update($request);
@@ -60,9 +52,7 @@ abstract class Controller
         return Response::error($this->getClass() . ' not found', 404, Validator::errors());
     }
 
-    /**
-     * @throws Exception
-     */
+
     public function delete(Request $request): Response
     {
         $id = $request->get('id');

@@ -3,24 +3,23 @@
 namespace app\Repository;
 
 use app\Model\Model;
-use Exception;
 
 class UserRepository extends Repository
 {
 
     public function findAll(): array
     {
-        $sql = "SELECT id, name, email FROM {$this->table}";
-        return $this->db->fetchAll($sql);
+        $this->query->select(['id', 'name', 'email']);
+
+        return $this->db->fetchAll($this->query->getQuery());
     }
 
-    /**
-     * @throws Exception
-     */
-    public function findByEmail() : ?Model
+
+    public function findByEmail(): ?Model
     {
-        $sql = "SELECT * FROM $this->table WHERE email = :email";
-        $user = $this->db->fetch($sql, [':email' => $this->model->getEmail()]);
+        $this->query->select()->where('email', '=', $this->model->getEmail());
+        $user = $this->db->fetch($this->query->getQuery(), [':email' => $this->model->getEmail()]);
+
 
         return $user ? new ($this->getModelClass())($user) : null;
     }

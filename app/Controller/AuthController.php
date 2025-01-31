@@ -6,8 +6,6 @@ use app\Core\Response;
 use app\Core\Validator;
 use app\Repository\UserRepository;
 use app\Service\AuthService;
-use app\Service\Service;
-use Exception;
 
 class AuthController extends Controller
 {
@@ -16,9 +14,6 @@ class AuthController extends Controller
         $this->service = new AuthService(new UserRepository('users'));
     }
 
-    /**
-     * @throws Exception
-     */
     public function create(Request $request): Response {
         if ($this->service->create($request)){
             return Response::success(null,'Registration successful');

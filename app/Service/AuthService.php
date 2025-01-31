@@ -25,7 +25,7 @@ class AuthService extends Service
         }
 
         return [
-            'token' => JWToken::generate(),
+            'token' => JWToken::generate($model),
         ];
     }
 
