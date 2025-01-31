@@ -8,7 +8,6 @@ use app\Model\Model;
 use app\Repository\Repository;
 use Exception;
 use JsonException;
-use RuntimeException;
 
 abstract class Service
 {

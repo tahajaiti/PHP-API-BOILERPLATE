@@ -2,18 +2,22 @@
 
 namespace app\Repository;
 use app\Core\Database;
+use app\Core\QueryBuilder;
+use app\Helpers\Helper;
 use app\Model\Model;
 use Exception;
 
 class Repository
 {
     protected Database $db;
-    protected string $table;
     protected Model $model;
+    protected string $table;
+    protected QueryBuilder $query;
 
     public function __construct(string $table){
         $this->db = Database::getInstance();
         $this->table = $table;
+        $this->query = new QueryBuilder($table);
     }
 
     public function setModel(Model $model): void
@@ -25,8 +29,12 @@ class Repository
      * @throws Exception
      */
     public function find(): ?Model{
-        $sql = "SELECT * FROM {$this->table} WHERE id = :id";
-        $data = $this->db->fetch($sql, ["id" => $this->model->getId()]);
+        $this->query->select()->where('id', '=', $this->model->getId());
+
+        $sql = $this->query->getQuery();
+        $params = $this->query->getParams();
+
+        $data = $this->db->fetch($sql, $params);
 
         return $data ? new ($this->getModelClass())($data) : null;
     }

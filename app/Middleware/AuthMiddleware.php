@@ -9,6 +9,7 @@ use Exception;
 
 class AuthMiddleware
 {
+
     /**
      * @throws Exception
      */

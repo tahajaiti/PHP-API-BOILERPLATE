@@ -93,11 +93,15 @@ class Validator
         return is_numeric($value);
     }
 
-        private static function validateString(string $field, $value, array $parameters): bool
+    private static function validateString(string $field, $value, array $parameters): bool
     {
         return ctype_alpha($value);
     }
 
+    private static function validateAlphanumeric(string $field, $value, array $parameters): bool
+    {
+        return ctype_alnum($value);
+    }
     private static function validateUrl(string $field, $value, array $parameters): bool
     {
         return filter_var($value, FILTER_VALIDATE_URL) !== false;
