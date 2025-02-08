@@ -6,9 +6,18 @@ use app\Core\JWToken;
 use app\Core\Request;
 use app\Core\Validator;
 use app\Model\User;
+use app\Repository\Repository;
+use app\Repository\UserRepository;
 
 class AuthService extends Service
 {
+
+    public function __construct(Repository $repository)
+    {
+        parent::__construct($repository);
+        $this->repository = new UserRepository('users');
+
+    }
 
     public function login(Request $request): array|false
     {
@@ -20,12 +29,15 @@ class AuthService extends Service
         $model->setEmail($request->get('email'));
         $model->setPassword($request->get('password'));
 
-        if (!$this->verifyPassword($request->get('password'), $model->getPassword())) {
+        $this->repository->setModel($model);
+        $user = $this->repository->findByEmail();
+
+        if (!$this->verifyPassword($request->get('password'), $user->getPassword())) {
             return false;
         }
 
         return [
-            'token' => JWToken::generate($model),
+            'token' => JWToken::generate($model->toArray()),
         ];
     }
 

@@ -4,8 +4,6 @@ use app\Core\Router;
 
 $router = new Router();
 
-$router->add('GET', '/test', 'TestController@test', ['TokenMiddleware']);
-
 $router->add('POST', '/register', 'AuthController@create', ['AuthMiddleware']);
 $router->add('POST', '/login', 'AuthController@login');
 
