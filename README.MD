@@ -47,7 +47,7 @@ A lightweight, efficient PHP boilerplate that provides a well-structured foundat
 7. Update `config.php` for environment variables (e.g., production).
 
 ## Contributing
-We encourage contributions. Feel free to open pull requests or issues to suggest improvements.
+I encourage contributions. Feel free to open pull requests or issues to suggest improvements.
 
 ## License
-This project is licensed under an open-source model—free to use or modify under applicable legal terms.
+I really don't care, Clone the project, get inspired and whatever it's open source! 
