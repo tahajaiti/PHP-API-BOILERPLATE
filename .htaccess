@@ -1,11 +1,11 @@
 <IfModule mod_rewrite.c>
-    Options -MultiViews
+    Options -Indexes -MultiViews
     RewriteEngine On
 
     # Check if the requested URL is not a valid file and route it to index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.php [L]
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 
     # If needed, enable proxying to a different server (this is optional)
     # RewriteCond %{REQUEST_URI}
